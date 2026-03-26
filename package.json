@@ -1,0 +1,37 @@
+{
+  "name": "minifigs-b",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "lint": "eslint src/**/*.js",
+    "start": "node ./src/index.js",
+    "dev": "nodemon src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Iaroslav-Marchuk/Minifigs-b.git"
+  },
+  "keywords": [],
+  "author": "Iaroslav_Marchuk <jarik.13a@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Iaroslav-Marchuk/Minifigs-b/issues"
+  },
+  "homepage": "https://github.com/Iaroslav-Marchuk/Minifigs-b#readme",
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.1.0",
+    "globals": "^17.4.0",
+    "nodemon": "^3.1.14",
+    "pino-pretty": "^13.1.3"
+  },
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "mongoose": "^9.3.3",
+    "pino-http": "^11.0.0"
+  }
+}
