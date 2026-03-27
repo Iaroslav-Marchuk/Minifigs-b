@@ -18,5 +18,3 @@ export const initMongoDB = async () => {
     throw error;
   }
 };
-
-// # mongodb+srv://jarik13a_db_user:gniWgInLDG4A1KOm@cluster0.ysouf0c.mongodb.net/?appName=Cluster0
