@@ -9,9 +9,10 @@ export const initMongoDB = async () => {
     const url = getEnvVariable('MONGODB_URL');
     const db = getEnvVariable('MONGODB_DB');
 
-    await mongoose.connect(
-      `mongodb+srv://${user}:${password}@${url}/${db}?appName=Cluster0`,
-    );
+    const uri = `mongodb+srv://${user}:${password}@${url}/${db}?appName=Cluster0`;
+
+    await mongoose.connect(uri);
+
     console.log('Mongo connection successfully established!');
   } catch (error) {
     console.log('Error while setting up mongo connection', error);
