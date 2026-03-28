@@ -26,4 +26,4 @@ const minifigSchema = new Schema(
   },
 );
 
-export const minifigsCollection = model('Minifig', minifigSchema);
+export const MinifigsCollection = model('Minifig', minifigSchema);
