@@ -2,26 +2,12 @@ import { Schema, model } from 'mongoose';
 
 const minifigSchema = new Schema(
   {
-    fig_num: {
-      type: String,
-      required: true,
-      unique: true,
-    },
-    name: {
-      type: String,
-      required: true,
-    },
-    num_parts: {
-      type: Number,
-      required: true,
-    },
-    img_url: {
-      type: String,
-      required: true,
-    },
+    fig_num: String,
+    name: String,
+    num_parts: Number,
+    img_url: String,
   },
   {
-    timestamps: true,
     versionKey: false,
   },
 );
