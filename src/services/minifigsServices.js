@@ -1,19 +1,21 @@
 import createHttpError from 'http-errors';
 
 import { MinifigsCollection } from '../db/models/minifigModel.js';
-import { calculatePaginationData } from '../utils/parsePaginationParams.js';
+import { SetsCollection } from '../db/models/setModel.js';
 import { InventoryMinifigsCollection } from '../db/models/inventoryMinifigsModel.js';
 import { InventoriesCollection } from '../db/models/inventoryModel.js';
-import { SetsCollection } from '../db/models/setModel.js';
+
+import { calculatePaginationData } from '../utils/parsePaginationParams.js';
+
+import { SORT_ORDER } from '../constants/constants.js';
 
 export const getAllMinifigsService = async ({
   page = 1,
   perPage = 20,
   themeId,
-  query,
-  //   sortOrder = SORT_ORDER.ASC,
-  //   sortBy = 'createdAt',
-  //   filter = {},
+  search,
+  sortOrder = SORT_ORDER.ASC,
+  sortBy = 'name',
 }) => {
   const limit = perPage;
   const skip = (page - 1) * perPage;
@@ -35,9 +37,17 @@ export const getAllMinifigsService = async ({
     mongoFilter.fig_num = { $in: figNums };
   }
 
+  if (search) {
+    mongoFilter.$or = [
+      { name: { $regex: search, $options: 'i' } },
+      { fig_num: { $regex: search, $options: 'i' } },
+    ];
+  }
+
   const ordersCount = await MinifigsCollection.countDocuments(mongoFilter);
 
   const allMinifigs = await MinifigsCollection.find(mongoFilter)
+    .sort({ [sortBy]: sortOrder })
     .skip(skip)
     .limit(limit)
     .lean();
@@ -76,24 +86,3 @@ export const getSetsByFigNumService = async (figNum) => {
 
   return sets;
 };
-
-// export const getAllMinifigsByThemeService = async (themeId) => {
-//   const sets = await SetsCollection.find({ theme_id: themeId }).lean();
-//   const setNums = sets.map((item) => item.set_num);
-
-//   const inventories = await InventoriesCollection.find({
-//     set_num: { $in: setNums },
-//   }).lean();
-//   const inventoryIds = inventories.map((item) => item.id);
-
-//   const inventoryMinifigs = await InventoryMinifigsCollection.find({
-//     inventory_id: { $in: inventoryIds },
-//   }).lean();
-//   const figNums = inventoryMinifigs.map((item) => item.fig_num);
-
-//   const minifigs = await MinifigsCollection.find({
-//     fig_num: { $in: figNums },
-//   }).lean();
-
-//   return minifigs;
-// };
