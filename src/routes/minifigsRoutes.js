@@ -17,4 +17,5 @@ router.get(
   isValidId,
   ctrlWrapper(getSetsByFigNumController),
 );
+
 export default router;

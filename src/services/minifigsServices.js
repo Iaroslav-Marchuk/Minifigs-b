@@ -11,7 +11,7 @@ import { SORT_ORDER } from '../constants/constants.js';
 
 export const getAllMinifigsService = async ({
   page = 1,
-  perPage = 20,
+  perPage = 40,
   themeId,
   search,
   sortOrder = SORT_ORDER.ASC,
