@@ -44,7 +44,7 @@ export const getAllMinifigsService = async ({
     ];
   }
 
-  const ordersCount = await MinifigsCollection.countDocuments(mongoFilter);
+  const minifigsCount = await MinifigsCollection.countDocuments(mongoFilter);
 
   const allMinifigs = await MinifigsCollection.find(mongoFilter)
     .sort({ [sortBy]: sortOrder })
@@ -52,7 +52,7 @@ export const getAllMinifigsService = async ({
     .limit(limit)
     .lean();
 
-  const paginationData = calculatePaginationData(ordersCount, page, perPage);
+  const paginationData = calculatePaginationData(minifigsCount, page, perPage);
 
   return { allMinifigs, ...paginationData };
 };
