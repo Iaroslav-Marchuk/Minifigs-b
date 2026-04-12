@@ -10,3 +10,12 @@ export const loginUserSchema = Joi.object({
   email: Joi.string().trim().email().required(),
   password: Joi.string().trim().min(6).max(16).required(),
 });
+
+export const requestResetUserPasswordSchema = Joi.object({
+  email: Joi.string().trim().email().required(),
+});
+
+export const resetUserPasswordSchema = Joi.object({
+  password: Joi.string().required(),
+  token: Joi.string().required(),
+});

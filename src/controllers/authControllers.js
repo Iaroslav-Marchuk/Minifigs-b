@@ -4,6 +4,8 @@ import {
   logoutUserService,
   refreshSessionService,
   registerUserService,
+  requestResetTokenService,
+  resetUserPasswordService,
 } from '../services/authServices.js';
 
 export const registerUserController = async (req, res) => {
@@ -65,5 +67,23 @@ export const refreshSessionController = async (req, res) => {
   res.status(200).json({
     message: 'Token refreshed successfully!',
     data: { accessToken },
+  });
+};
+
+export const requestResetTokenController = async (req, res) => {
+  await requestResetTokenService(req.body.email);
+
+  res.status(200).json({
+    message: 'Reset password email was successfully sent!',
+    data: {},
+  });
+};
+
+export const resetUserPasswordController = async (req, res) => {
+  await resetUserPasswordService(req.body);
+
+  res.status(200).json({
+    message: 'Password was successfully reset!',
+    data: {},
   });
 };
