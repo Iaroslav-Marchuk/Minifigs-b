@@ -6,6 +6,7 @@ import { notFoundHandler } from './middlewares/notFoundHandler.js';
 import { errorHandler } from './middlewares/errorHandler.js';
 
 import router from './routes/index.js';
+import cookieParser from 'cookie-parser';
 
 const allowedOrigin = 'http://localhost:5173';
 // const allowedOrigin = 'https://register-f-plum.vercel.app';
@@ -14,6 +15,7 @@ const app = express();
 
 app.use(express.json());
 app.use(cors({ origin: allowedOrigin, credentials: true }));
+app.use(cookieParser());
 
 app.use(
   pino({
