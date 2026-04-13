@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { validateBody } from '../middlewares/validateBody.js';
 import {
+  changePasswordSchema,
   loginUserSchema,
   registerUserSchema,
   requestResetUserPasswordSchema,
@@ -8,6 +9,7 @@ import {
 } from '../validation/userValidation.js';
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import {
+  changePasswordController,
   loginUserController,
   logoutUserController,
   refreshSessionController,
@@ -15,6 +17,7 @@ import {
   requestResetTokenController,
   resetUserPasswordController,
 } from '../controllers/authControllers.js';
+import { authenticate } from '../middlewares/authenticate.js';
 
 const router = Router();
 
@@ -44,6 +47,13 @@ router.post(
   '/reset-password',
   validateBody(resetUserPasswordSchema),
   ctrlWrapper(resetUserPasswordController),
+);
+
+router.patch(
+  '/change-password',
+  authenticate,
+  validateBody(changePasswordSchema),
+  ctrlWrapper(changePasswordController),
 );
 
 export default router;

@@ -1,5 +1,6 @@
 import { REFRESH_TOKEN_EXP } from '../constants/constants.js';
 import {
+  changePasswordService,
   loginUserService,
   logoutUserService,
   refreshSessionService,
@@ -85,5 +86,29 @@ export const resetUserPasswordController = async (req, res) => {
   res.status(200).json({
     message: 'Password was successfully reset!',
     data: {},
+  });
+};
+
+export const changePasswordController = async (req, res) => {
+  const userId = req.user._id;
+  const { oldPass, newPass } = req.body;
+
+  const { accessToken, refreshToken, user } = await changePasswordService(
+    userId,
+    oldPass,
+    newPass,
+  );
+
+  res.cookie('refreshToken', refreshToken, {
+    httpOnly: true,
+    expires: new Date(Date.now() + REFRESH_TOKEN_EXP),
+    sameSite: 'None',
+    secure: true,
+    path: '/',
+  });
+
+  res.status(200).json({
+    message: 'Password changed successfully!',
+    data: { accessToken, user },
   });
 };

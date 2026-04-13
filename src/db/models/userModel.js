@@ -5,7 +5,7 @@ const userSchema = new Schema(
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    collection: [{ type: Schema.Types.ObjectId, ref: 'Minifig' }],
+    savedMinifigs: [{ type: Schema.Types.ObjectId, ref: 'Minifig' }],
     wishList: [{ type: Schema.Types.ObjectId, ref: 'Minifig' }],
   },
   { timestamps: true, versionKey: false },

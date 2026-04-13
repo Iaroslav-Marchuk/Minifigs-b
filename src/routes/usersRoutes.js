@@ -8,7 +8,7 @@ import {
   getUserCollectionController,
   getUserWishListController,
 } from '../controllers/usersControllers.js';
-import { authenticate } from '../middlewares/authenticante.js';
+import { authenticate } from '../middlewares/authenticate.js';
 
 const router = Router();
 

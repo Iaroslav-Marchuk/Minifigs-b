@@ -173,3 +173,43 @@ export const resetUserPasswordService = async (payload) => {
 
   await SessionsCollection.deleteMany({ userId: user._id });
 };
+
+export const changePasswordService = async (userId, oldPass, newPass) => {
+  const user = await UsersCollection.findById(userId);
+
+  if (!user) {
+    throw createHttpError(404, 'User not found!');
+  }
+
+  const isEqual = await bcrypt.compare(oldPass, user.password);
+  if (!isEqual) {
+    throw createHttpError(401, 'Invalid password!');
+  }
+
+  const encryptedNewPassword = await bcrypt.hash(newPass, 10);
+
+  user.password = encryptedNewPassword;
+  await user.save();
+
+  await SessionsCollection.deleteOne({ userId: user._id });
+
+  const accessToken = jwt.sign({ userId: user._id }, JWT_SECRET, {
+    expiresIn: ACCESS_TOKEN_EXP / 1000,
+  });
+  const refreshToken = randomBytes(30).toString('base64');
+
+  await SessionsCollection.create({
+    userId: user._id,
+    refreshToken,
+    refreshTokenValidUntil: new Date(Date.now() + REFRESH_TOKEN_EXP),
+  });
+
+  return {
+    accessToken,
+    refreshToken,
+    user: {
+      name: user.name,
+      email: user.email,
+    },
+  };
+};

@@ -41,14 +41,14 @@ export const getUserCollectionService = async (
     ];
   }
   const userForCount = await UsersCollection.findById(userId).populate({
-    path: 'collection',
+    path: 'savedMinifigs',
     match: mongoFilter,
     select: '_id',
   });
-  const minifigsCount = userForCount.collection.length;
+  const minifigsCount = userForCount.savedMinifigs.length;
 
   const user = await UsersCollection.findById(userId).populate({
-    path: 'collection',
+    path: 'savedMinifigs',
     match: mongoFilter,
     options: {
       sort: { [sortBy]: sortOrder },
@@ -57,17 +57,17 @@ export const getUserCollectionService = async (
     },
   });
 
-  const collection = user.collection;
+  const savedMinifigs = user.savedMinifigs;
 
   const paginationData = calculatePaginationData(minifigsCount, page, perPage);
 
-  return { collection, ...paginationData };
+  return { savedMinifigs, ...paginationData };
 };
 
 export const addItemToUserCollectionService = async (userId, minifigId) => {
   return await UsersCollection.findByIdAndUpdate(
     userId,
-    { $addToSet: { collection: minifigId } },
+    { $addToSet: { savedMinifigs: minifigId } },
     { new: true },
   );
 };
@@ -78,7 +78,7 @@ export const deleteItemFromUserCollectionService = async (
 ) => {
   return await UsersCollection.findByIdAndUpdate(
     userId,
-    { $pull: { collection: minifigId } },
+    { $pull: { savedMinifigs: minifigId } },
     { new: true },
   );
 };

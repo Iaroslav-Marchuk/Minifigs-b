@@ -16,6 +16,11 @@ export const requestResetUserPasswordSchema = Joi.object({
 });
 
 export const resetUserPasswordSchema = Joi.object({
-  password: Joi.string().required(),
+  password: Joi.string().trim().min(6).max(16).required(),
   token: Joi.string().required(),
+});
+
+export const changePasswordSchema = Joi.object({
+  oldPass: Joi.string().trim().min(6).max(16).required(),
+  newPass: Joi.string().trim().min(6).max(16).required(),
 });
