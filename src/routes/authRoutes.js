@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { validateBody } from '../middlewares/validateBody.js';
 import {
   changePasswordSchema,
+  changeUserNameSchema,
   loginUserSchema,
   registerUserSchema,
   requestResetUserPasswordSchema,
@@ -10,6 +11,7 @@ import {
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import {
   changePasswordController,
+  changeUserNameController,
   loginUserController,
   logoutUserController,
   refreshSessionController,
@@ -54,6 +56,13 @@ router.patch(
   authenticate,
   validateBody(changePasswordSchema),
   ctrlWrapper(changePasswordController),
+);
+
+router.patch(
+  '/change-name',
+  authenticate,
+  validateBody(changeUserNameSchema),
+  ctrlWrapper(changeUserNameController),
 );
 
 export default router;

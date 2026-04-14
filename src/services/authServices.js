@@ -213,3 +213,22 @@ export const changePasswordService = async (userId, oldPass, newPass) => {
     },
   };
 };
+
+export const changeUserNameService = async (userId, newName) => {
+  const user = await UsersCollection.findOneAndUpdate(
+    { _id: userId },
+    { name: newName },
+    { new: true },
+  );
+
+  if (!user) {
+    throw createHttpError(404, 'User not found');
+  }
+
+  return {
+    user: {
+      name: user.name,
+      email: user.email,
+    },
+  };
+};

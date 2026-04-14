@@ -1,6 +1,8 @@
 import {
   addItemToUserCollectionService,
   addItemToUserWishListService,
+  clearUserCollectionService,
+  clearUserWishListService,
   deleteItemFromUserCollectionService,
   deleteItemFromUserWishListService,
   getUserCollectionService,
@@ -97,5 +99,27 @@ export const deleteItemFromUserWishListController = async (req, res) => {
 
   res.status(200).json({
     message: "Successfully deleted item from user's wish list!",
+  });
+};
+
+export const clearUserCollectionController = async (req, res) => {
+  const userId = req.user._id;
+
+  const user = await clearUserCollectionService(userId);
+
+  res.status(200).json({
+    message: 'Successfully cleared user collection!',
+    data: user,
+  });
+};
+
+export const clearUserWishListController = async (req, res) => {
+  const userId = req.user._id;
+
+  const user = await clearUserWishListService(userId);
+
+  res.status(200).json({
+    message: 'Successfully cleared user wishlist!',
+    data: user,
   });
 };

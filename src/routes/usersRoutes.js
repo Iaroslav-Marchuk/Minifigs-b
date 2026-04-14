@@ -3,6 +3,8 @@ import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import {
   addItemToUserCollectionController,
   addItemToUserWishListController,
+  clearUserCollectionController,
+  clearUserWishListController,
   deleteItemFromUserCollectionController,
   deleteItemFromUserWishListController,
   getUserCollectionController,
@@ -43,4 +45,17 @@ router.delete(
   authenticate,
   ctrlWrapper(deleteItemFromUserWishListController),
 );
+
+router.delete(
+  '/mycollection/clear',
+  authenticate,
+  ctrlWrapper(clearUserCollectionController),
+);
+
+router.delete(
+  '/mywishlist/clear',
+  authenticate,
+  ctrlWrapper(clearUserWishListController),
+);
+
 export default router;

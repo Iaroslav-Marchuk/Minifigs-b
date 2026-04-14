@@ -1,3 +1,4 @@
+import createHttpError from 'http-errors';
 import { SORT_ORDER } from '../constants/constants.js';
 import { InventoryMinifigsCollection } from '../db/models/inventoryMinifigsModel.js';
 import { InventoriesCollection } from '../db/models/inventoryModel.js';
@@ -157,4 +158,32 @@ export const deleteItemFromUserWishListService = async (userId, minifigId) => {
     { $pull: { wishList: minifigId } },
     { new: true },
   );
+};
+
+export const clearUserCollectionService = async (userId) => {
+  const user = await UsersCollection.findOneAndUpdate(
+    { _id: userId },
+    { savedMinifigs: [] },
+    { new: true },
+  );
+
+  if (!user) {
+    throw createHttpError(404, 'User not found');
+  }
+
+  return user;
+};
+
+export const clearUserWishListService = async (userId) => {
+  const user = await UsersCollection.findOneAndUpdate(
+    { _id: userId },
+    { wishList: [] },
+    { new: true },
+  );
+
+  if (!user) {
+    throw createHttpError(404, 'User not found');
+  }
+
+  return user;
 };

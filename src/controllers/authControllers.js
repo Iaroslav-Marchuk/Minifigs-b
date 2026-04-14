@@ -1,6 +1,7 @@
 import { REFRESH_TOKEN_EXP } from '../constants/constants.js';
 import {
   changePasswordService,
+  changeUserNameService,
   loginUserService,
   logoutUserService,
   refreshSessionService,
@@ -110,5 +111,17 @@ export const changePasswordController = async (req, res) => {
   res.status(200).json({
     message: 'Password changed successfully!',
     data: { accessToken, user },
+  });
+};
+
+export const changeUserNameController = async (req, res) => {
+  const userId = req.user._id;
+  const { newName } = req.body;
+
+  const { user } = await changeUserNameService(userId, newName);
+
+  res.status(200).json({
+    message: 'Name changed successfully!',
+    data: { user },
   });
 };
