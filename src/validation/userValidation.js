@@ -23,6 +23,7 @@ export const resetUserPasswordSchema = Joi.object({
 export const changePasswordSchema = Joi.object({
   oldPass: Joi.string().trim().min(6).max(16).required(),
   newPass: Joi.string().trim().min(6).max(16).required(),
+  confirmPass: Joi.string().valid(Joi.ref('newPass')).required(),
 });
 
 export const changeUserNameSchema = Joi.object({

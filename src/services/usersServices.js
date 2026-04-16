@@ -5,8 +5,9 @@ import { InventoriesCollection } from '../db/models/inventoryModel.js';
 import { SetsCollection } from '../db/models/setModel.js';
 import { UsersCollection } from '../db/models/userModel.js';
 import { calculatePaginationData } from '../utils/parsePaginationParams.js';
+import { MinifigsCollection } from '../db/models/minifigModel.js';
 
-export const getUserCollectionService = async (
+export const getUserCollectionService = async ({
   userId,
   page = 1,
   perPage = 40,
@@ -14,7 +15,7 @@ export const getUserCollectionService = async (
   search,
   sortOrder = SORT_ORDER.ASC,
   sortBy = 'name',
-) => {
+}) => {
   const limit = perPage;
   const skip = (page - 1) * perPage;
   const mongoFilter = {};
@@ -66,11 +67,16 @@ export const getUserCollectionService = async (
 };
 
 export const addItemToUserCollectionService = async (userId, minifigId) => {
-  return await UsersCollection.findByIdAndUpdate(
+  const minifig = await MinifigsCollection.findById(minifigId);
+  if (!minifig) throw createHttpError(404, 'Minifig not found');
+
+  await UsersCollection.findByIdAndUpdate(
     userId,
     { $addToSet: { savedMinifigs: minifigId } },
-    { new: true },
+    { returnDocument: 'after' },
   );
+
+  return minifig;
 };
 
 export const deleteItemFromUserCollectionService = async (
@@ -80,11 +86,11 @@ export const deleteItemFromUserCollectionService = async (
   return await UsersCollection.findByIdAndUpdate(
     userId,
     { $pull: { savedMinifigs: minifigId } },
-    { new: true },
+    { returnDocument: 'after' },
   );
 };
 
-export const getUserWishListService = async (
+export const getUserWishListService = async ({
   userId,
   page = 1,
   perPage = 40,
@@ -92,7 +98,7 @@ export const getUserWishListService = async (
   search,
   sortOrder = SORT_ORDER.ASC,
   sortBy = 'name',
-) => {
+}) => {
   const limit = perPage;
   const skip = (page - 1) * perPage;
   const mongoFilter = {};
@@ -145,18 +151,23 @@ export const getUserWishListService = async (
 };
 
 export const addItemToUserWishListService = async (userId, minifigId) => {
-  return await UsersCollection.findByIdAndUpdate(
+  const minifig = await MinifigsCollection.findById(minifigId);
+  if (!minifig) throw createHttpError(404, 'Minifig not found');
+
+  await UsersCollection.findByIdAndUpdate(
     userId,
-    { $addToSet: { wishList: minifigId } },
-    { new: true },
+    { $addToSet: { savedMinifigs: minifigId } },
+    { returnDocument: 'after' },
   );
+
+  return minifig;
 };
 
 export const deleteItemFromUserWishListService = async (userId, minifigId) => {
   return await UsersCollection.findByIdAndUpdate(
     userId,
     { $pull: { wishList: minifigId } },
-    { new: true },
+    { returnDocument: 'after' },
   );
 };
 

@@ -20,6 +20,20 @@ router.get(
   ctrlWrapper(getUserCollectionController),
 );
 
+router.get('/mywishlist', authenticate, ctrlWrapper(getUserWishListController));
+
+router.delete(
+  '/mycollection/clear',
+  authenticate,
+  ctrlWrapper(clearUserCollectionController),
+);
+
+router.delete(
+  '/mywishlist/clear',
+  authenticate,
+  ctrlWrapper(clearUserWishListController),
+);
+
 router.post(
   '/mycollection/:minifigId',
   authenticate,
@@ -32,8 +46,6 @@ router.delete(
   ctrlWrapper(deleteItemFromUserCollectionController),
 );
 
-router.get('/mywishlist', authenticate, ctrlWrapper(getUserWishListController));
-
 router.post(
   '/mywishlist/:minifigId',
   authenticate,
@@ -44,18 +56,6 @@ router.delete(
   '/mywishlist/:minifigId',
   authenticate,
   ctrlWrapper(deleteItemFromUserWishListController),
-);
-
-router.delete(
-  '/mycollection/clear',
-  authenticate,
-  ctrlWrapper(clearUserCollectionController),
-);
-
-router.delete(
-  '/mywishlist/clear',
-  authenticate,
-  ctrlWrapper(clearUserWishListController),
 );
 
 export default router;

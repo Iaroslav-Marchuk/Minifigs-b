@@ -104,7 +104,11 @@ export const refreshSessionService = async (refreshToken) => {
     refreshTokenValidUntil: new Date(Date.now() + REFRESH_TOKEN_EXP),
   });
 
-  return { accessToken: newAccessToken, refreshToken: newRefreshToken };
+  const user = await UsersCollection.findById(currentSession.userId).select(
+    '-password',
+  );
+
+  return { accessToken: newAccessToken, refreshToken: newRefreshToken, user };
 };
 
 export const requestResetTokenService = async (email) => {

@@ -39,10 +39,11 @@ export const addItemToUserCollectionController = async (req, res) => {
   const userId = req.user._id;
   const { minifigId } = req.params;
 
-  await addItemToUserCollectionService(userId, minifigId);
+  const minifig = await addItemToUserCollectionService(userId, minifigId);
 
   res.status(200).json({
     message: "Successfully added item to user's collection!",
+    data: minifig,
   });
 };
 
@@ -84,10 +85,11 @@ export const addItemToUserWishListController = async (req, res) => {
   const userId = req.user._id;
   const { minifigId } = req.params;
 
-  await addItemToUserWishListService(userId, minifigId);
+  const minifig = await addItemToUserWishListService(userId, minifigId);
 
   res.status(200).json({
     message: "Successfully added item to user's wish list!",
+    data: minifig,
   });
 };
 

@@ -55,8 +55,11 @@ export const logoutUserController = async (req, res) => {
 export const refreshSessionController = async (req, res) => {
   const { refreshToken } = req.cookies;
 
-  const { accessToken, refreshToken: newRefreshToken } =
-    await refreshSessionService(refreshToken);
+  const {
+    accessToken,
+    refreshToken: newRefreshToken,
+    user,
+  } = await refreshSessionService(refreshToken);
 
   res.cookie('refreshToken', newRefreshToken, {
     httpOnly: true,
@@ -68,7 +71,7 @@ export const refreshSessionController = async (req, res) => {
 
   res.status(200).json({
     message: 'Token refreshed successfully!',
-    data: { accessToken },
+    data: { accessToken, user },
   });
 };
 

@@ -57,16 +57,6 @@ export const getAllMinifigsService = async ({
   return { allMinifigs, ...paginationData };
 };
 
-export const getMinifigByIdService = async (minifigId) => {
-  const minifig = await MinifigsCollection.findById(minifigId);
-
-  if (!minifig) {
-    throw createHttpError(404, 'Minifig not found');
-  }
-
-  return minifig;
-};
-
 export const getSetsByFigNumService = async (figNum) => {
   const inventoryMinifigs = await InventoryMinifigsCollection.find({
     fig_num: figNum,
@@ -85,4 +75,13 @@ export const getSetsByFigNumService = async (figNum) => {
   }).lean();
 
   return sets;
+};
+export const getMinifigByIdService = async (minifigId) => {
+  const minifig = await MinifigsCollection.findById(minifigId);
+
+  if (!minifig) {
+    throw createHttpError(404, 'Minifig not found');
+  }
+
+  return minifig;
 };
