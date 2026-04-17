@@ -156,7 +156,7 @@ export const addItemToUserWishListService = async (userId, minifigId) => {
 
   await UsersCollection.findByIdAndUpdate(
     userId,
-    { $addToSet: { savedMinifigs: minifigId } },
+    { $addToSet: { wishList: minifigId } },
     { returnDocument: 'after' },
   );
 
