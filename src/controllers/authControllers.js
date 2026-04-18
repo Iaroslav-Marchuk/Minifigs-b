@@ -2,6 +2,7 @@ import { REFRESH_TOKEN_EXP } from '../constants/constants.js';
 import {
   changePasswordService,
   changeUserNameService,
+  loginOrSignupWithGoogle,
   loginUserService,
   logoutUserService,
   refreshSessionService,
@@ -9,6 +10,7 @@ import {
   requestResetTokenService,
   resetUserPasswordService,
 } from '../services/authServices.js';
+import { generateAuthUrl } from '../utils/googleOAuth2.js';
 
 export const registerUserController = async (req, res) => {
   await registerUserService(req.body);
@@ -126,5 +128,47 @@ export const changeUserNameController = async (req, res) => {
   res.status(200).json({
     message: 'Name changed successfully!',
     data: { user },
+  });
+};
+
+export const getGoogleOAuthUrlController = async (req, res) => {
+  const url = generateAuthUrl();
+  res.status(200).json({
+    message: 'Successfully get Google OAuth url!',
+    data: {
+      url,
+    },
+  });
+};
+
+// export const loginWithGoogleController = async (req, res) => {
+//   const session = await loginOrSignupWithGoogle(req.body.code);
+//   setupSession(res, session);
+
+//   res.json({
+//     status: 200,
+//     message: 'Successfully logged in via Google OAuth!',
+//     data: {
+//       accessToken: session.accessToken,
+//     },
+//   });
+// };
+
+export const loginWithGoogleController = async (req, res) => {
+  const { accessToken, refreshToken, user } = await loginOrSignupWithGoogle(
+    req.body.code,
+  );
+
+  res.cookie('refreshToken', refreshToken, {
+    httpOnly: true,
+    expires: new Date(Date.now() + REFRESH_TOKEN_EXP),
+    sameSite: 'None',
+    secure: true,
+    path: '/',
+  });
+
+  res.status(200).json({
+    message: 'Successfully logged in via Google OAuth!',
+    data: { accessToken, user },
   });
 };

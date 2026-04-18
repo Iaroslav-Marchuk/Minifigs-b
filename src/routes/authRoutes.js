@@ -12,7 +12,9 @@ import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import {
   changePasswordController,
   changeUserNameController,
+  getGoogleOAuthUrlController,
   loginUserController,
+  loginWithGoogleController,
   logoutUserController,
   refreshSessionController,
   registerUserController,
@@ -20,6 +22,7 @@ import {
   resetUserPasswordController,
 } from '../controllers/authControllers.js';
 import { authenticate } from '../middlewares/authenticate.js';
+import { loginWithGoogleOAuthSchema } from '../validation/authValidation.js';
 
 const router = Router();
 
@@ -63,6 +66,14 @@ router.patch(
   authenticate,
   validateBody(changeUserNameSchema),
   ctrlWrapper(changeUserNameController),
+);
+
+router.get('/get-oauth-url', ctrlWrapper(getGoogleOAuthUrlController));
+
+router.post(
+  '/confirm-oauth',
+  validateBody(loginWithGoogleOAuthSchema),
+  ctrlWrapper(loginWithGoogleController),
 );
 
 export default router;
