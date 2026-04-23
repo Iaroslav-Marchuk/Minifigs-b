@@ -8,8 +8,8 @@ import { errorHandler } from './middlewares/errorHandler.js';
 import router from './routes/index.js';
 import cookieParser from 'cookie-parser';
 
-const allowedOrigin = 'http://localhost:5173';
-// const allowedOrigin = 'https://register-f-plum.vercel.app';
+// const allowedOrigin = 'http://localhost:5173';
+const allowedOrigin = 'https://minifigs.vercel.app/';
 
 const app = express();
 
