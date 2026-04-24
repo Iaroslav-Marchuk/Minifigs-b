@@ -9,7 +9,7 @@ import router from './routes/index.js';
 import cookieParser from 'cookie-parser';
 
 // const allowedOrigin = 'http://localhost:5173';
-const allowedOrigin = 'https://minifigs.vercel.app/';
+const allowedOrigin = 'https://minifigs.vercel.app';
 
 const app = express();
 
